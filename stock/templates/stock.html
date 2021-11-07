@@ -1,0 +1,81 @@
+{% include 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+ 
+   <h1>Stock</h1>
+   <h1><a href="{% url 'stock:add_stock' %}">Add stock</a></h1>
+<button>Addstock</button>
+<div class="stock">
+   <table>
+       <tr>
+           <th>Category</th>
+           <th>product</th>
+           <th>Quantity</th>
+           <th>Measurement</th>
+           <th>Price per Item</th>
+           <th>Total price</th>
+           <th>Status</th>
+           <th>Edit stock</th>
+          
+           <!-- <th>Delete</th> -->
+       </tr>
+ 
+       <tr>
+           {% for stock in stock %}
+           <td>{{stock.category}}</td>
+           <td>{{stock.product}}</td>
+           <td>{{stock.quantity}}</td>
+           <td>{{stock.measurement}}</td>
+           <td>{{stock.price_item}}</td>
+           <td>{{stock.total_price}}</td>
+           <td>{{stock.status}}</td>
+           <td><a href="{% url 'stock:edit_stock' id=stock.id%}">Edit</a></td>
+           
+           <!-- <td><a href="{% url 'stock:deleteStock' id=stock.id %}">Delete</a></td> -->
+       </tr>
+       {% endfor %}
+   </table>
+</div>
+   <style>
+       h1{
+            text-align: center;
+        }
+        .stock{
+           margin-left: 190px;
+           background-color:rgb(244, 240, 245);
+      
+        }
+         table, td, th {
+           border: 1px solid #ddd;
+           text-align: left;
+           padding-left: 48px;
+        
+         }
+      
+         tr:hover {
+           background-color:rgb(244, 240, 245);
+           cursor: pointer;
+         }
+         th, td {
+           padding: 15px;
+         }
+         th{
+          background-color:  rgb(165, 103, 153);
+         
+           color: black;
+         }
+         img{
+           height: 50px;
+           width: 50px;
+         }
+    </style>
+</body>
+ 
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List item</title>
+</head>
+
+<body>
+    
+    {% if messages %}
+    <ul class="messages">
+           {% for message in messages %}
+                 <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+           {% endfor %}
+   </ul>
+{% endif %}
+
+    <div class="header" {{header}}>stock</div>
+    <form method='POST' action=''>{% csrf_token %}
+        {{form}}
+            <input type="submit" value='Search'/>
+    </form>
+    <br>
+
+    <div class="display_table">
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>COUNT</th>
+                    <th>CATEGORY</th>
+                    <th>ITEM NAME</th>
+                    <th>QUANTITY IN STORE</th>
+                   
+                </tr>
+            </thead>
+            {% for instance in queryset %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{instance.category}}</td>
+                <td><a href="{% url 'stock:update_items' instance.id %}" >{{instance.item_name}}</a></td>
+                <td>{{instance.quantity}}</td>
+               
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <style>
+        .header {
+            font-family: helvetica;
+            color: purple;
+            font-size: 50px;
+            text-align: center;
+            width: 100%;
+            text-shadow: 6px 6px 6px #c9c6c6;
+            display: block;
+            font-weight: bolder;
+            padding: 2%;
+        }
+
+        /*Align the title to the center of the page*/
+        .table {
+            font-size: 13px;
+            text-align: center;
+            width: 95%;
+            margin: auto;
+            text-align: center;
+        }
+
+        /*Make alternating colors for the table rows*/
+        .table tr:nth-child(odd) {
+            background: rgb(122, 14, 122);
+            color: white;
+
+        }
+
+        .table tr:nth-child(even) {
+            background: white;
+        }
+
+        th {
+            background-color: rgb(122, 14, 122);
+            color: white;
+            padding: 2%;
+
+        }
+
+        td {
+            padding: 2%;
+        }
+
+        .display_table {
+            border-bottom-right-radius: 20px;
+            /*border-bottom-left-radius: 20px;*/
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-bottom: 20px;
+            box-shadow: 12px 12px 20px 6px rgb(189, 163, 189);
+        }
+        .success{
+            list-style: none;
+            background-color: #2e6da4;
+            color: white;
+            box-shadow: 12px 12px 12px #e61c66;
+            text-align: center;
+        }
+    </style>
+</body>
+
+</html>
+<!-- 
+    	{{title}}<br>
+	{% for instance in queryset %}
+	{{instance.item_name}}, {{instance.quantity}}<br>
+
+	{% endfor %}
+ -->
