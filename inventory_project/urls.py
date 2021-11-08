@@ -20,13 +20,10 @@ from django.urls.conf import include
 
 
 urlpatterns = [
-    path('', include('accounts.urls')),
-    path('dashboard/',include('dashboard.urls')),
     path('admin/', admin.site.urls),
     path('stock/',include('stock.urls')),
-    path('menu/',include('menu.urls')),
-    path('order/',include('orders.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('registration.backends.default.urls')),
+
     
     
 ]

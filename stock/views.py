@@ -5,53 +5,14 @@ from .forms import *
 from .models import *
 from django.contrib import messages
 from django.http import HttpResponse 
-
-
-
+from django.contrib.auth.decorators import login_required
 
 
  
 # Create your views here.
-def stock(request):
-   return render(request,'stock.html',{})
- 
 
-def add_stock(request):
-   if request.method=='POST':
-       form=AddStockForm(request.POST,request.FILES)
-       if form.is_valid():
-           form.save()
-           messages.success(request, 'Successfully Saved')
-       else:
-           print(form.errors)
-   else:
-       form=AddStockForm()
-   return render(request,"add_stock.html",{"form":form})
- 
-def view_stock(request):
-   stock=Stock.objects.all()
-   return render(request,"stock.html",{ 'stock':stock})
- 
- 
-def edit_stock(request,id): 
-    stock=Stock.objects.get(id=id)
-    if request.method=="POST":
-        form=AddStockForm(request.POST,request.FILES,instance=stock)
-        if form.is_valid():
-            form.save()      
-    else:
-        form=AddStockForm(instance=stock)
-    return render(request,'edit_stock.html',{"form":form})
-def delete_stock(request,id):
-    try:
-        stock=Stock.objects.get(id=id)
-        stock.delete()
-    except Stock.DoesNotExist:
-        stock=None
-    return render(request,"stock.html",{})
-
-
-def home(request):
+@login_required
+def base(request):
     title='Welcome:Stock management'
     form="welcome"
     context={
@@ -59,8 +20,9 @@ def home(request):
         "test":form
        
     }
-    return render (request,'home.html',context)
+    return render (request,'base.html',context)
 
+@login_required
 def list_item(request):
     header='Stock'
     form = StockSearchForm(request.POST or None)
@@ -93,7 +55,7 @@ def list_item(request):
             "queryset": queryset,
                   }
     return render(request, "list_item.html", context)
-
+@login_required
 def add_items(request):
     form=StockCreateForm(request.POST or None)
     if form.is_valid():
@@ -106,7 +68,7 @@ def add_items(request):
         }
     return render(request,"add_items.html",context)
     
-
+@login_required
 def update_items(request, pk):
     queryset = Stock.objects.get(id=pk)
     form = StockUpdateForm(instance=queryset)
@@ -120,4 +82,116 @@ def update_items(request, pk):
         'form':form
 	}
     return render(request, 'add_items.html', context)
+
+@login_required
+def stock_detail(request, pk):
+	queryset = Stock.objects.get(id=pk)
+	context = {
+		"queryset": queryset,
+	}
+	return render(request, "stock_detail.html", context)
+
+
+
+@login_required
+def issue_items(request, pk):
+	queryset = Stock.objects.get(id=pk)
+	form = IssueForm(request.POST or None, instance=queryset)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.quantity -= instance.issue_quantity
+		instance.issue_by = str(request.user)
+		messages.success(request, "Issued SUCCESSFULLY. " + str(instance.quantity) + " " + str(instance.item_name) + "s now left in Store")
+		instance.save()
+
+		return redirect('/stock/stock_detail/'+str(instance.id))
+		# return HttpResponseRedirect(instance.get_absolute_url())
+
+	context = {
+		"title": 'Issue ' + str(queryset.item_name),
+		"queryset": queryset,
+		"form": form,
+		"username": 'Issue By: ' + str(request.user),
+	}
+	return render(request, "add_items.html", context)
+
+
+@login_required
+def receive_items(request, pk):
+	queryset = Stock.objects.get(id=pk)
+	form = ReceiveForm(request.POST or None, instance=queryset)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.quantity += instance.receive_quantity
+		instance.save()
+		messages.success(request, "Received SUCCESSFULLY. " + str(instance.quantity) + " " + str(instance.item_name)+"s now in Store")
+
+		return redirect('/stock/stock_detail/'+str(instance.id))
+		# return HttpResponseRedirect(instance.get_absolute_url())
+	context = {
+			"title": 'Reaceive ' + str(queryset.item_name),
+			"instance": queryset,
+			"form": form,
+			"username": 'Receive By: ' + str(request.user),
+		}
+	return render(request, "add_items.html", context)
+
+@login_required
+def reorder_level(request, pk):
+	queryset = Stock.objects.get(id=pk)
+	form = ReorderLevelForm(request.POST or None, instance=queryset)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.save()
+		messages.success(request, "Reorder level for " + str(instance.item_name) + " is updated to " + str(instance.reorder_level))
+
+		return redirect("/stock/list_item")
+	context = {
+			"instance": queryset,
+			"form": form,
+		}
+	return render(request, "add_items.html", context)
+
+    
+@login_required
+def menu_items(request, pk):
+	queryset = Stock.objects.get(id=pk)
+	form = IssueForm(request.POST or None, instance=queryset)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.quantity -= instance.issue_quantity
+		instance.issue_by = str(request.user)
+		messages.success(request, "Issued SUCCESSFULLY. " + str(instance.quantity) + " " + str(instance.item_name) + "s now left in Store")
+		instance.save()
+
+		return redirect('/stock/stock_detail/'+str(instance.id))
+		
+
+	context = {
+		"title": 'Issue ' + str(queryset.item_name),
+		"queryset": queryset,
+		"form": form,
+		"username": 'Issue By: ' + str(request.user),
+	}
+	return render(request, "add_items.html", context)
+
+
+@login_required
+def order_items(request, pk):
+	queryset = Stock.objects.get(id=pk)
+	form = ReceiveForm(request.POST or None, instance=queryset)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.quantity -= instance.issue_quantity
+		instance.save()
+
+		return redirect('/stock/stock_detail/'+str(instance.id))
+		# return HttpResponseRedirect(instance.get_absolute_url())
+	context = {
+			"title": 'Reaceive ' + str(queryset.item_name),
+			"instance": queryset,
+			"form": form,
+			"username": 'Receive By: ' + str(request.user),
+		}
+	return render(request, "add_items.html", context)
 

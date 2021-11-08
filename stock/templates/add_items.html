@@ -1,3 +1,4 @@
+{% include 'navbar.html' %}
 {% load static %}
 
 <!DOCTYPE html>
@@ -16,7 +17,7 @@
          {%csrf_token%}
         <h1>Add stock</h1>
          {{form.as_p}}
-        <center> <button>Submit</button></center>
+        <center> <button class="mybtn">Submit</button></center>
      </form>
      </div>
      </div>
@@ -52,8 +53,9 @@
         width: 80%;
         background: #fff;
         margin: 20px auto;
-        padding: 30px;
+        padding: 50px;
         box-shadow: 1px 1px 2px rgba(0,0,0, 125);
+        padding-left: 25%;
          }
          .wrapper.form.inputfield{
              margin-bottom: 15px;
@@ -69,11 +71,12 @@
         button{
             top: 30px;
             height: 50px;
-            width :50%;
+            width :12%;
             border-radius: 6px;
             align-items: center;
-            font-size: 1.4rem;
+            font-size: 1rem;
             background-color: rgb(226, 191, 226);
+            
         }
         .pic{
             background-size: contain;
@@ -86,10 +89,22 @@
             background-color: purple;
             cursor: pointer;
         }
-         img{
-            margin-left:50px;
-            width:100px;
-        }
+       .mybtn{
+        top: 30px;
+        height: 50px;
+        width :40%;
+        border-radius: 6px;
+        align-items: center;
+        font-size: 1.4rem;
+        background-color: rgb(226, 191, 226);
+       }
+       .mybtn:hover{
+        color: white;
+        background-color: purple;
+        cursor: pointer;
+           
+       }
+        
   
     </style>
 </body>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Category, Stock
-from.forms import StockCreateForm
+from.forms import *
 
 # Register your models here.
 

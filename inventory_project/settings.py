@@ -46,13 +46,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dashboard',
-    'orders',
     'stock',
-    'menu',
-    'accounts',
+    
     'django_filters',
+    # 'dashboard',
+    'orders',
+    'menu',
+    # 'accounts',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -187,6 +189,13 @@ EMAIL_USE_TLS= True
 EMAIL_HOST_USER = 'expresskitchengroup@gmail.com'
 EMAIL_HOST_PASSWORD = ' akirachix2021 '
 
+
+
+
+ACCOUNT_ACTIVATION_DAYS = 7 # One-week activation window
+REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/'
+
+
 django_heroku.settings(locals())
-
-
