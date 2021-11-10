@@ -52,3 +52,9 @@ class StockHistory(models.Model):
 	reorder_level = models.IntegerField(default='0', blank=True, null=True)
 	last_updated = models.DateTimeField(auto_now_add=False, auto_now=False, null=True)
 	timestamp = models.DateTimeField(auto_now_add=False, auto_now=False, null=True)
+ 
+ 
+class Menu(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
+    item_name =models.CharField(max_length=50, blank=True, null=True)
+    quantity = models.IntegerField(default='0', blank=True, null=True)

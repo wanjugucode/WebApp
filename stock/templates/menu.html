@@ -1,123 +1,140 @@
-<{% include 'navbar.html' %}
-
+{% include 'navbar.html' %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>List item</title>
 </head>
+
 <body>
+    
+    {% if messages %}
+    <ul class="messages">
+           {% for message in messages %}
+                 <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+           {% endfor %}
+   </ul>
+{% endif %}
 
-    <div class=" padd"> 
-<a href="{% url 'stock:issue_items' queryset.id %}"><div class='btn-issue'><button>REQUEST THIS ITEM</button> </div></a>
+    <div class="header" {{header}}>stock</div>
+    
+<div class="search">
+
+    <form method='POST' action=''>{% csrf_token %}
+        {{form}}
+            <input type="submit" value='Search'/>
+    </form>
+    <br>
+</div>
 
 
 
-        <div class="display_table">
-          <table class='table'>
-                  <tr>
+    <div class="display_table">
+        <table class='table'>
+           
+                <tr>
+                    <th>COUNT</th>
+                    <th>ID</th>
+                    <th>CATEGORY</th>
                     <th>ITEM NAME</th>
-                    <th>QUANTITY IN STORE</th>
-                    <th>LAST UPDATED</th>
-                    <th>REORDER LEVEL</th>
-                  </tr>
-                  <tr>
-                    <td>{{queryset.item_name}}</td>
-                    <td>{{queryset.quantity}}</a></td>
-                    <td>{{queryset.last_updated}}</td>
-                    <td>{{queryset.reorder_level}}</td>
-                  </tr>
-          </table>
-        </div>
+                    <th>ISSUE QUANTITY</th>
 
-    </div> 
-        <style>
-            .header {
-                font-family: helvetica;
-                color: purple;
-                font-size: 50px;
-                text-align: center;
-                width: 100%;
-                text-shadow: 6px 6px 6px #c9c6c6;
-                display: block;
-                font-weight: bolder;
-                padding: 2%;
-            }
-    
-            /*Align the title to the center of the page*/
-            .table {
-                font-size: 13px;
-                text-align: center;
-                width: 95%;
-                margin: auto;
-                text-align: center;
-                border-collapse: collapse;
-                border: 1px solid black;
-            }
-    
-            table, th, td {
-                border: 1px solid black;
-              }
-            /*Make alternating colors for the table rows*/
-            .table tr:nth-child(odd) {
-                background: rgb(122, 14, 122);
-                color: white;
-    
-            }
-    
-            .table tr:nth-child(even) {
-                background: white;
-            }
-    
-            th {
-                background-color: rgb(122, 14, 122);
-                color: white;
-                padding: 2%;
-    
-            }
-    
-            td {
-                padding: 2%;
-            }
-    
-            .display_table {
-
-                padding-left:15%;
-                padding-right: 5px;
-                padding-bottom: 20px;
-                box-shadow: 12px 12px 20px 6px rgb(189, 163, 189);
-            }
-            .success{
-                list-style: none;
-                background-color: plum;
-                color: white;
-                box-shadow: 12px 12px 12px plum;
-                text-align: center;
-            }
-            button{
-                
-                height:50px;
-                width :20%;
-                border-radius: 6px;
-                align-items: center;
-                font-size: 1rem;
-                background-color: rgb(226, 191, 226);
-                
-            }
-           .btn-issue{
-            padding-left: 25%;
-            height: auto;
-            margin-top: 1px;
-            width: 100%;
-            padding-bottom: 40px;
+                  
+                   
+                </tr>
         
-           }
-           .padd{
-               margin-bottom: 80%;
-           }
-        </style>
+
+            {% for instance in queryset %}
+            <tr>
+
+                <td>{{forloop.counter}}</td>
+                <td>{{instance.category}}</td>
+                <td>{{instance.item_name}}</td>
+                <td>{{instance.issue_quantity}}</td>
+
+
+
+               
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    
+<style>
+    .header{
+        text-align: center;
+        text-shadow: 6px 6px 6px #c9c6c6;
+
+        font-family: helvetica;
+        color: purple;
+        font-size: 50px;
+        text-align: center;
+        width: 100%;
+        text-shadow: 6px 6px 6px #c9c6c6;
+        display: block;
+        font-weight: bolder;
+        padding: 2%;
+    }
+    .stock{
+       margin-left: 190px;
+       background-color:rgb(244, 240, 245);
+  
+    }
+    .table {
+        font-size: 13px;
+        text-align: center;
+        width: 95%;
+        margin: auto;
+        text-align: center;
+        border-collapse: collapse;
+        border: 1px solid black;
+    }
+        
+    .display_table {
+
+        padding-left: 210px;
+        padding-right: 40px;
+        padding-bottom: 20px;
+        box-shadow: 12px 12px 20px 6px rgb(189, 163, 189);
+    }
+     table, td, th {
+       border: 1px solid #ddd;
+       text-align: left;
+       padding-right: 48px;
+       border: 1px solid black;
+      
+
+    
+     }
+     tr:hover {
+       background-color:rgb(244, 240, 245);
+       cursor: pointer;
+     }
+     th, td {
+       padding: 15px;
+     }
+     th{
+       background-color: rgb(221, 168, 226);
+  
+     
+       color: black;
+     }
+     .success{
+        list-style: none;
+        background-color: #2e6da4;
+        color: white;
+        box-shadow: 12px 12px 12px rgb(221, 168, 226);;
+        text-align: center;
+    }
+    .search{
+        padding-left: 30%;
+    }
+</style>
     
 </body>
+
 </html>

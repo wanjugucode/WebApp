@@ -18,8 +18,7 @@ def base(request):
     context={
         "title":title,
         "test":form
-       
-    }
+       }
     return render (request,'base.html',context)
 
 @login_required
@@ -113,7 +112,7 @@ def issue_items(request, pk):
 		"form": form,
 		"username": 'Issue By: ' + str(request.user),
 	}
-	return render(request, "add_items.html", context)
+	return render(request, "request.html", context)
 
 
 @login_required
@@ -129,12 +128,12 @@ def receive_items(request, pk):
 		return redirect('/stock/stock_detail/'+str(instance.id))
 		# return HttpResponseRedirect(instance.get_absolute_url())
 	context = {
-			"title": 'Reaceive ' + str(queryset.item_name),
+			"title": 'Receive ' + str(queryset.item_name),
 			"instance": queryset,
 			"form": form,
 			"username": 'Receive By: ' + str(request.user),
 		}
-	return render(request, "add_items.html", context)
+	return render(request, "receive.html", context)
 
 @login_required
 def reorder_level(request, pk):
@@ -153,6 +152,7 @@ def reorder_level(request, pk):
 	return render(request, "add_items.html", context)
 
     
+# Requesting for menu
 @login_required
 def menu_items(request, pk):
 	queryset = Stock.objects.get(id=pk)
@@ -173,25 +173,65 @@ def menu_items(request, pk):
 		"form": form,
 		"username": 'Issue By: ' + str(request.user),
 	}
-	return render(request, "add_items.html", context)
+	return render(request, "request.html", context)
 
 
+# ADD MENU
 @login_required
-def order_items(request, pk):
-	queryset = Stock.objects.get(id=pk)
-	form = ReceiveForm(request.POST or None, instance=queryset)
-	if form.is_valid():
-		instance = form.save(commit=False)
-		instance.quantity -= instance.issue_quantity
-		instance.save()
+def add_menu(request):
+    form=AddMenu(request.POST or None)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Successfully Saved')
+        return redirect('/stock/menu_items')
+    context={
+        "form":form,
+        "title":'Additems',
+        }
+    return render(request,"add_menu.html",context)
 
-		return redirect('/stock/stock_detail/'+str(instance.id))
-		# return HttpResponseRedirect(instance.get_absolute_url())
-	context = {
-			"title": 'Reaceive ' + str(queryset.item_name),
-			"instance": queryset,
-			"form": form,
-			"username": 'Receive By: ' + str(request.user),
-		}
-	return render(request, "add_items.html", context)
+
+
+    
+# @login_required
+# def menu_items(request, pk):
+# 	queryset = Menu.objects.get(id=pk)
+# 	form = IssueForm(request.POST or None, instance=queryset)
+# 	if form.is_valid():
+# 		instance = form.save(commit=False)
+# 		instance.quantity -= instance.issue_quantity
+# 		instance.issue_by = str(request.user)
+# 		messages.success(request, "Issued SUCCESSFULLY. " + str(instance.quantity) + " " + str(instance.item_name) + "s now left in Store")
+# 		instance.save()
+
+# 		return redirect('/stock/stock_detail/'+str(instance.id))
+		
+
+# 	context = {
+# 		"title": 'Issue ' + str(queryset.item_name),
+# 		"queryset": queryset,
+# 		"form": form,
+# 		"username": 'Issue By: ' + str(request.user),
+# 	}
+# 	return render(request, "menu.html", context)
+
+
+
+    
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

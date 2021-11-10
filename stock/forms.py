@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import fields
 from django.forms.formsets import formset_factory
-from .models import Stock
+from .models import Menu, Stock
  
 class AddStockForm(forms.ModelForm):
    class Meta:
@@ -53,13 +53,13 @@ class StockUpdateForm(forms.ModelForm):
 class IssueForm(forms.ModelForm):
 	class Meta:
 		model = Stock
-		fields = ['issue_quantity']
+		fields = ['item_name','receive_quantity']
 
 
 class ReceiveForm(forms.ModelForm):
 	class Meta:
 		model = Stock
-		fields = ['receive_quantity']
+		fields = ['item_name','receive_quantity']
         
 class ReorderLevelForm(forms.ModelForm):
 	class Meta:
@@ -75,6 +75,19 @@ class OrderCreateForm(forms.ModelForm):
     class Meta:
         model =Stock
         fields=['category','item_name','quantity'] 
+        
+        
+class MenuForm(forms.ModelForm):
+    class Meta:
+        model =Menu
+        fields=['item_name','quantity'] 
+
+ 
+class AddMenu(forms.ModelForm):
+   class Meta:
+       model=Menu
+       fields="__all__"
+
 
 
 

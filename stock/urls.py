@@ -15,9 +15,8 @@ urlpatterns = [
    path('issue_items/<str:pk>/', views.issue_items, name="issue_items"),
    path('receive_items/<str:pk>/', views.receive_items, name="receive_items"),
    path('reorder_level/<str:pk>/', views.reorder_level, name="reorder_level"),
-   path('menu_items/<str:pk>/', views.menu_items, name="munu_items"),
-   
-  
+   path('menu_items/<str:pk>/', views.menu_items, name="menu_items"),
+   path('add_menu/', views.add_menu, name="add_menu"),
 
 ]
  

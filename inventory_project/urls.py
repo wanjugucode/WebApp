@@ -21,6 +21,7 @@ from django.urls.conf import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('account',include('accounts.urls')),
     path('stock/',include('stock.urls')),
     path('accounts/', include('registration.backends.default.urls')),
 
