@@ -17,6 +17,8 @@ urlpatterns = [
    path('reorder_level/<str:pk>/', views.reorder_level, name="reorder_level"),
    path('menu_items/<str:pk>/', views.menu_items, name="menu_items"),
    path('add_menu/', views.add_menu, name="add_menu"),
+   path('menu/', views.menu, name='menu'),
+   
 
 ]
  

@@ -183,7 +183,7 @@ def add_menu(request):
     if form.is_valid():
         form.save()
         messages.success(request, 'Successfully Saved')
-        return redirect('/stock/menu_items')
+        return redirect('/stock/menu')
     context={
         "form":form,
         "title":'Additems',
@@ -214,6 +214,41 @@ def add_menu(request):
 # 		"username": 'Issue By: ' + str(request.user),
 # 	}
 # 	return render(request, "menu.html", context)
+
+
+@login_required
+def menu(request):
+    header='Menu'
+    form = MenuForm(request.POST or None)
+    queryset = Stock.objects.all()
+    context = {
+        "header": header,
+        "queryset": queryset,
+        "form":form
+    }
+    
+    if request.method == 'POST':
+        queryset = Menu.objects.filter(
+            # category__icontains=form['category'].value(),
+            item_name__icontains=form['item_name'].value()
+            )
+     
+        if form['export_to_CSV'].value() == True:
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = 'attachment; filename="List of stock.csv"'
+            writer = csv.writer(response)
+            writer.writerow(['CATEGORY', 'ITEM NAME', 'QUANTITY'])
+            instance = queryset
+            for stock in instance:
+                writer.writerow([stock.category, stock.item_name, stock.quantity])
+            return response
+
+        context = {
+            "form": form,
+            "header": 'header',
+            "queryset": queryset,
+                  }
+    return render(request, "menu.html", context)
 
 
 

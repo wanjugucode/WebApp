@@ -19,7 +19,7 @@
    </ul>
 {% endif %}
 
-    <div class="header" {{header}}>stock</div>
+    <div class="header" {{header}}>Menu</div>
     
 <div class="search">
 
@@ -36,9 +36,8 @@
         <table class='table'>
            
                 <tr>
-                    <th>COUNT</th>
-                    <th>ID</th>
-                    <th>CATEGORY</th>
+                   
+                 
                     <th>ITEM NAME</th>
                     <th>ISSUE QUANTITY</th>
 
@@ -50,8 +49,7 @@
             {% for instance in queryset %}
             <tr>
 
-                <td>{{forloop.counter}}</td>
-                <td>{{instance.category}}</td>
+              
                 <td>{{instance.item_name}}</td>
                 <td>{{instance.issue_quantity}}</td>
 
@@ -59,8 +57,14 @@
 
                
             </tr>
+
+          
             {% endfor %}
+
+          
         </table>
+        <center> <button>request</button></center>
+        
     </div>
 
     
