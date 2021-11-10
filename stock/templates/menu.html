@@ -39,7 +39,7 @@
                    
                  
                     <th>ITEM NAME</th>
-                    <th>ISSUE QUANTITY</th>
+                    <th>QUANTITY</th>
 
                   
                    
@@ -47,15 +47,10 @@
         
 
             {% for instance in queryset %}
-            <tr>
-
-              
+            <tr>  
                 <td>{{instance.item_name}}</td>
-                <td>{{instance.issue_quantity}}</td>
-
-
-
-               
+                <td>{{instance.quantity}}</td>
+       
             </tr>
 
           

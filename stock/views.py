@@ -192,35 +192,12 @@ def add_menu(request):
 
 
 
-    
-# @login_required
-# def menu_items(request, pk):
-# 	queryset = Menu.objects.get(id=pk)
-# 	form = IssueForm(request.POST or None, instance=queryset)
-# 	if form.is_valid():
-# 		instance = form.save(commit=False)
-# 		instance.quantity -= instance.issue_quantity
-# 		instance.issue_by = str(request.user)
-# 		messages.success(request, "Issued SUCCESSFULLY. " + str(instance.quantity) + " " + str(instance.item_name) + "s now left in Store")
-# 		instance.save()
-
-# 		return redirect('/stock/stock_detail/'+str(instance.id))
-		
-
-# 	context = {
-# 		"title": 'Issue ' + str(queryset.item_name),
-# 		"queryset": queryset,
-# 		"form": form,
-# 		"username": 'Issue By: ' + str(request.user),
-# 	}
-# 	return render(request, "menu.html", context)
-
 
 @login_required
 def menu(request):
     header='Menu'
-    form = MenuForm(request.POST or None)
-    queryset = Stock.objects.all()
+    form = MenuSearchForm(request.POST or None)
+    queryset = Menu.objects.all()
     context = {
         "header": header,
         "queryset": queryset,
@@ -235,12 +212,12 @@ def menu(request):
      
         if form['export_to_CSV'].value() == True:
             response = HttpResponse(content_type='text/csv')
-            response['Content-Disposition'] = 'attachment; filename="List of stock.csv"'
+            response['Content-Disposition'] = 'attachment; filename="List of Menu.csv"'
             writer = csv.writer(response)
             writer.writerow(['CATEGORY', 'ITEM NAME', 'QUANTITY'])
             instance = queryset
-            for stock in instance:
-                writer.writerow([stock.category, stock.item_name, stock.quantity])
+            for menu in instance:
+                writer.writerow([menu.category, menu.item_name, menu.quantity])
             return response
 
         context = {
@@ -252,21 +229,17 @@ def menu(request):
 
 
 
-    
-    
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@login_required
+def update_menu(request, pk):
+    queryset = Stock.objects.get(id=pk)
+    form = StockUpdateForm(instance=queryset)
+    if request.method == 'POST':
+        form = StockUpdateForm(request.POST, instance=queryset)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Successfully Saved')
+            return redirect('/stock/menu')
+    context = {
+        'form':form
+	}
+    return render(request, 'add_menu.html', context)

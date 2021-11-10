@@ -66,15 +66,12 @@ class ReorderLevelForm(forms.ModelForm):
 		model = Stock
 		fields = ['reorder_level']
 
-class MenuForm(forms.ModelForm):
-	class Meta:
-		model = Stock
-		fields = ['issue_quantity']
+
 
 class OrderCreateForm(forms.ModelForm):
     class Meta:
         model =Stock
-        fields=['category','item_name','quantity'] 
+        fields=['category','item_name','quantity',] 
         
         
 class MenuForm(forms.ModelForm):
@@ -87,6 +84,18 @@ class AddMenu(forms.ModelForm):
    class Meta:
        model=Menu
        fields="__all__"
+       
+       
+# class IssueMenuForm(forms.ModelForm):
+# 	class Meta:
+# 		model = Menu
+# 		fields = ['item_name','quantity']
+       
+class MenuSearchForm(forms.ModelForm):
+    export_to_CSV = forms.BooleanField(required =False)
+    class Meta:
+        model = Menu
+        fields = [ 'item_name']
 
 
 
