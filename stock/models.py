@@ -58,3 +58,4 @@ class Menu(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
     item_name =models.CharField(max_length=50, blank=True, null=True)
     quantity = models.IntegerField(default='0', blank=True, null=True)
+    issue_quantity = models.IntegerField(default='0', blank=True, null=True)

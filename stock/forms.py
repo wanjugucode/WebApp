@@ -3,16 +3,7 @@ from django.forms import fields
 from django.forms.formsets import formset_factory
 from .models import Menu, Stock
  
-class AddStockForm(forms.ModelForm):
-   class Meta:
-       model=Stock
-       fields="__all__"
 
-
-class DeleteStockForm(forms.ModelForm):
-   class Meta:
-       model=Stock
-       fields="__all__"
        
 class StockCreateForm(forms.ModelForm):
     class Meta:
@@ -53,7 +44,8 @@ class StockUpdateForm(forms.ModelForm):
 class IssueForm(forms.ModelForm):
 	class Meta:
 		model = Stock
-		fields = ['item_name','receive_quantity']
+		fields = ['item_name','issue_quantity']
+
 
 
 class ReceiveForm(forms.ModelForm):
@@ -79,17 +71,24 @@ class MenuForm(forms.ModelForm):
         model =Menu
         fields=['item_name','quantity'] 
 
- 
 class AddMenu(forms.ModelForm):
-   class Meta:
-       model=Menu
-       fields="__all__"
+    class Meta:
+        model =Menu
+        fields= ['item_name','issue_quantity'] # add fields in admin
+
+    def clean_item_name(self):
+        item_name = self.cleaned_data.get('item_name')
+        if not item_name:
+            raise forms.ValidationError('This field is required')
+        
+        for instance in Stock.objects.all():
+            if instance.item_name == item_name:
+                raise forms.ValidationError(str(item_name) + ' is already created')
+        return item_name
+
+
+ 
        
-       
-# class IssueMenuForm(forms.ModelForm):
-# 	class Meta:
-# 		model = Menu
-# 		fields = ['item_name','quantity']
        
 class MenuSearchForm(forms.ModelForm):
     export_to_CSV = forms.BooleanField(required =False)
@@ -100,6 +99,9 @@ class MenuSearchForm(forms.ModelForm):
 
 
 
-
+# class AddMenu(forms.ModelForm):
+#    class Meta:
+#        model=Menu
+#        fields= ['item_name','issue_quantity']
 
 

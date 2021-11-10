@@ -80,7 +80,7 @@ def update_items(request, pk):
     context = {
         'form':form
 	}
-    return render(request, 'add_items.html', context)
+    return render(request, 'update_items.html', context)
 
 @login_required
 def stock_detail(request, pk):

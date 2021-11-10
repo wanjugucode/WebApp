@@ -11,5 +11,12 @@ class StockCreateAdmin(admin.ModelAdmin):
     list_filter=['category']
     search_fields=['category','item_name']
 
+class MenuCreateAdmin(admin.ModelAdmin):
+    list_display=['category','item_name','issue_quantity',]
+    form=StockCreateForm
+    list_filter=['category']
+    search_fields=['category','item_name']
+
 admin.site.register(Stock, StockCreateAdmin)
 admin.site.register(Category)
+admin.site.register(Menu, MenuCreateAdmin)

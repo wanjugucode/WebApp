@@ -40,16 +40,15 @@
                  
                     <th>ITEM NAME</th>
                     <th>QUANTITY</th>
-
-                  
                    
                 </tr>
         
 
             {% for instance in queryset %}
             <tr>  
-                <td>{{instance.item_name}}</td>
-                <td>{{instance.quantity}}</td>
+ 
+                <td><a href="{% url 'stock:issue_items' instance.id %}" >{{instance.item_name}}</a></td>                <!-- <td>{{instance.item_name}}</td> -->
+               <td>{{instance.issue_quantity}}</td>
        
             </tr>
 

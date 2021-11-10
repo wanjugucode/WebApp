@@ -27,12 +27,15 @@
 <body>
     <ul class="mytop-nav">
         <li class=" nav-li"><a href="{% url 'stock:list_item' %}">Stock</a></li>
-
-        <li class=" nav-li"><a href="{% url 'stock:add_items' %}">Add stock</a></li>
-       
+        <li class=" nav-li"><a href="{% url 'stock:add_items' %}">Add stock</a></li> 
+        <li class=" nav-li"><a href="{% url 'stock:menu' %}">Menu</a></li>
+        <li class=" nav-li"><a href="{% url 'stock:add_menu' %}">Add menu </a></li>
         <li class=" nav-li"><a href="">Order</a></li>
-        
-        <li class=" nav-li"><a href="">Menu</a></li>
+        <!-- <li class=" nav-li"><a href="">Update stock</a></li>
+        <li class=" nav-li"><a href="">Request Menu</a></li>
+        <li class=" nav-li"><a href="">Receive items</a></li>
+        <li class=" nav-li"><a href="">Issue items</a></li>
+        <li class=" nav-li"><a href="">Stock details</a></li> -->
 
      </ul>
      <style>
@@ -67,13 +70,13 @@
         background-color: white;
         color:black;
         height: 12px;
-        width: 60%;
+        width: 80%;
        
     } 
     .heading{
         margin-left: 400px;
         font-size: 70px;
-        padding-top: 80px;
+        padding-top: 85px;
     }
     .navbar-nav{
         padding-left:75%;
