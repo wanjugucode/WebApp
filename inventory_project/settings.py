@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-)i!k&p2emxemw_qs2x0ej)jgthtq5=y3+!k9g@8xd3j7!9izl^
 DEBUG = True
 
 ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = ['express-kitchen-solution.heroku.com']
+ALLOWED_HOSTS = ['express-kitchen-solution.heroku.com']
 
 
 # Application definition
@@ -91,18 +91,19 @@ WSGI_APPLICATION = 'inventory_project.wsgi.application'
 
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'expresskitchendb;',
-        'USER': 'expresskitchen',
-        'PASSWORD': 'AkiraChix2021',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'expresskitchendb;',
+    #     'USER': 'expresskitchen',
+    #     'PASSWORD': 'AkiraChix2021',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432 '
+    #     # 'PORT': '',
+    # }
 }
 
 
@@ -185,10 +186,12 @@ TEMPLATES = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
+
 EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST="smtp.gmail.com"
 EMAIL_PORT=587
 EMAIL_USE_TLS= True
+
 # EMAIL_HOST_USER = os.environ.get("GMAIL")
 # EMAIL_HOST_PASSWORD = os.environ.get("CONTRASEÑA_GMAIL")
 EMAIL_HOST_USER = 'expresskitchengroup@gmail.com'
